@@ -15,17 +15,17 @@ namespace syntaxERROR.OPtion
         public bool IsLoaded { get; private set; }
 
         public T Data { get; set; }
-        public string Path { get; set; } = string.Empty;
+        public string FilePath { get; set; } = string.Empty;
 
         public OPtion(string path)
         {
             IsLoaded = false;
-            Path = path;
+            FilePath = path;
         }
 
-        public void Load(string path)
+        public void Load()
         {
-            string text = File.ReadAllText(path);
+            string text = File.ReadAllText(FilePath);
             LoadText(text);
         }
 
@@ -37,7 +37,7 @@ namespace syntaxERROR.OPtion
 
         public void Save()
         {
-            File.WriteAllText(Path, Data.ToString());
+            File.WriteAllText(FilePath, Data.ToString());
         }
 
         public void Sync(JObject oldToken, JObject newToken)
