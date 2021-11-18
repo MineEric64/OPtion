@@ -8,17 +8,19 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace OPtion
+namespace syntaxERROR.OPtion
 {
-    public class OPtion
+    public class OPtion<T> where T : JToken
     {
         public bool IsLoaded { get; private set; }
 
-        public JObject Data { get; set; } = new JObject();
+        public T Data { get; set; }
+        public string Path { get; set; } = string.Empty;
 
-        public OPtion()
+        public OPtion(string path)
         {
             IsLoaded = false;
+            Path = path;
         }
 
         public void Load(string path)
@@ -29,13 +31,13 @@ namespace OPtion
 
         public void LoadText(string text)
         {
-            Data = JObject.Parse(text);
+            Data = (T)JToken.Parse(text);
             IsLoaded = true;
         }
 
-        public void Save(string path)
+        public void Save()
         {
-            File.WriteAllText(path, Data.ToString());
+            File.WriteAllText(Path, Data.ToString());
         }
 
         public void Sync(JObject oldToken, JObject newToken)
